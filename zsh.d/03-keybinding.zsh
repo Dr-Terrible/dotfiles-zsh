@@ -3,9 +3,8 @@ setopt NO_FLOW_CONTROL
 
 # Load keyboard mapping.
 # TODO: add instructions about how to generate ~/.zkbd/xterm-256color-:0
-# TODO: move ~/.zkbd from $HOME into the bestow repository
 # TODO: make the key mapping dependent on the hostname/os rather than $TERM
-KEYMAPPING_DIR="${HOME}/.zkbd/"
+KEYMAPPING_DIR="${ZSHD_DIR}/zkbd/"
 KEYMAP_FILE="${TERM}-${${DISPLAY:t}:-${VENDOR}-${OSTYPE}}"
 if [ -r "${KEYMAPPING_DIR}"/${KEYMAP_FILE} ]; then
 	. "${KEYMAPPING_DIR}"/${KEYMAP_FILE}
