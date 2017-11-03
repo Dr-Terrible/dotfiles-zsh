@@ -4,23 +4,28 @@ cp() { command cp -i "$@"; }
 mv() { command mv -i "$@"; }
 
 # Coloured output
-alias -g dir="dir --color=auto"
-alias -g vdir="vdir --color=auto"
-if command -V grep >/dev/null 2>&1; then
-	alias -g grep="grep --color=auto"
-	alias -g fgrep="fgrep --color=auto"
-	alias -g egrep="egrep --color=auto"
-fi
-if command -V less >/dev/null 2>&1; then
-	alias -g less="less -R" # Make less accept colour codes and re-output them
+if [ -n "${LS_COLORS}" ]; then
+	dir() { command dir --color=auto "$@"; }
+	vdir() { command vdir --color=auto "$@"; }
+
+	if command -pv grep >/dev/null 2>&1; then
+		grep() { command grep --color=auto "$@"; }
+		fgrep() { command fgrep --color=auto "$@"; }
+		egrep() { command egrep --color=auto "$@"; }
+	fi
+
+	# Make less accept colour codes and re-output them
+	if command -pv less >/dev/null 2>&1; then
+		less() { command less -RMJqs --shift 5 "$@"; }
+	fi
 fi
 
 # Some useful defaults for common commands
-alias -g lf="ls -lAFpZ --group-directories-first --color=auto"
+lf() { command ls -lHAFpZ --group-directories-first --sort=extension --color=auto "$@" | tail -n +2; }
 
-# Some useful aliases to append
+# Some useful aliases to append at the command line
+[ -n "${DISPLAY}" ] && alias -g D="DISPLAY=${DISPLAY}"
 alias -g C='| wc -l'
-alias -g D="DISPLAY=:0.0"
 alias -g DN=/dev/null
 alias -g NS='| sort -n'
 alias -g NUL="> /dev/null 2>&1"

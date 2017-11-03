@@ -1,0 +1,18 @@
+# Generated automatically by bestow v0.4.0
+# See 'bestow help tutorial' for a detailed user manual about be.stow syntax
+
+zsh {
+	# .zshenv must be symlinked to the $HOME to work correctly.
+	.zshenv
+}
+
+xdg {
+	# .zshenv sets ZDOTDIR to ${XDG_CONFIG_HOME}/zsh,
+	# so we can take advantage of FreeDesktop's basedir specs.
+	into = $HOME/.config/zsh
+
+	.zlogin
+	.zlogout
+	.zprofile
+	.zshrc
+}

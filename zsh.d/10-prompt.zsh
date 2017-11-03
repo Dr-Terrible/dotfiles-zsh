@@ -1,5 +1,5 @@
 # Initialize the prompt system
-autoload -U promptinit
+autoload -Uz promptinit
 promptinit
 
 # Load and enable Powerline if available, otherwise fallback to a regular prompt

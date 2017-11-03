@@ -25,7 +25,7 @@ function git-fixconfig() {
 		git config --global github.user Dr-Terrible
 
 		# TODO: create a specific vimb profile for git.
-		if command -v vimb >/dev/null 2>&1; then
+		if command -pv vimb >/dev/null 2>&1; then
 			git config --global web.browser vimb
 			git config --global browser.vimb.cmd vimb
 		fi
@@ -44,7 +44,7 @@ function git-fixconfig() {
 		git config --global credential.helper     'cache --timeout=3600'
 		git config --global commit.gpgsign        true
 		git config --global diff.algorithm        minimal
-		git config --global gc.auto               true
+		git config --global gc.auto               1
 
 		git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 	fi

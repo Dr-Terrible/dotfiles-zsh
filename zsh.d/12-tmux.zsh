@@ -53,7 +53,7 @@ function _validate_tmux_session_name() {
 
 	# Exit if the session name is empty
 	if [[ "empty" == ${session_name} ]]; then
-		log_status "You must supply a valid session name when invoking ${function_name}!"
+		printf "You must supply a valid session name when invoking ${function_name}!\n"
 		exit 1
 	fi
 

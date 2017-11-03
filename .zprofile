@@ -4,5 +4,5 @@
 # You should put here any scripts you want executed before ~/.zshrc.
 
 
-# 077 is far more secure than the default 022
-umask 077
+# 0077 is far more secure than the default 0022
+umask 0077

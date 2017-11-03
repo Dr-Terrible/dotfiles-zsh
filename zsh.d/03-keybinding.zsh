@@ -9,10 +9,10 @@ KEYMAP_FILE="${TERM}-${${DISPLAY:t}:-${VENDOR}-${OSTYPE}}"
 if [ -r "${KEYMAPPING_DIR}"/${KEYMAP_FILE} ]; then
 	. "${KEYMAPPING_DIR}"/${KEYMAP_FILE}
 else
-	# NOTE: if there is a missing keymapping for a particular combination
+	# NOTE: if there is a missing key-mapping for a particular combination
 	# of $TERM and $OSTYPE, then it is wise to pre-load the zkbd module so it
 	# will be already at hand when necessary.
-	autoload zkbd
+	autoload -Uz zkbd
 fi
 
 # Key binding for ZLE

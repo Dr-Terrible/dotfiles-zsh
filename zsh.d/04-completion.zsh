@@ -1,11 +1,15 @@
 # Enable tab-completion module
 autoload -Uz compinit
-compinit -i -u -d "${XDG_CACHE_HOME}"/zsh/.zcompdump
+compinit #-i -u -d "${XDG_CACHE_HOME}"/zsh/.zcompdump
 
 # Enable the auto-correction of the commands typed,
 # and make zsh ask you for confirmation every time it suggests a correction
 setopt CORRECT
 #setopt correctall
+
+# Use a cache
+zstyle ':completion:*' use-cache on
+#zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}"/zsh/completion
 
 # ZStyles
 zstyle ":completion:*" auto-description "specify: %U%d%u"
@@ -32,11 +36,12 @@ zstyle ":completion:*" completer _expand _complete _correct _approximate
 zstyle ':completion:*:match:*' original only
 zstyle ':completion:*:approximate:*' max-errors 1 numeric
 
-# Cache
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}"/zsh/completion
+# Prevent CVS files/directories from being completed:
 
-# Filter completion functions for commands you don’t have:
+zstyle ':completion:*:(all-|)files' ignored-patterns '(|*/)CVS'
+zstyle ':completion:*:cd:*' ignored-patterns '(*/)#CVS'
+
+# Filter completion functions for commands you don't have:
 zstyle ':completion:*:functions' ignored-patterns '_*'
 
 # cd - command

@@ -8,6 +8,8 @@ if [[ $- != *i* ]] ; then
         return
 fi
 
+# TODO: investigate why umask from ~/.zprofile is ignored by newer ZSH versions.
+umask 0077
 
 # Put your fun stuff here.
 # ------------------------
@@ -17,7 +19,22 @@ if [ -d "${ZSHD_DIR}" ]; then
 	for script in "${ZSHD_DIR}"/*.zsh ; do
 		[ -r "${script}" ] && . "${script}"
 	done
+	unset script
 fi
+
+# Load direnv helper functions
+if command -v direnv >/dev/null 2>&1; then
+	eval "$( direnv hook zsh )"
+fi
+
+# Compile everything
+autoload -Uz zrecompile
+zrecompile -p \
+	-R "${ZDOTDIR}"/.zlogin -- \
+	-R "${ZDOTDIR}"/.zlogout -- \
+	-R "${ZDOTDIR}"/.zprofile -- \
+	-R "${ZDOTDIR}"/.zshrc -- \
+	-M "${ZDOTDIR}"/.zcompdump
 
 autoload -Uz zmv
 autoload -Uz zcalc
