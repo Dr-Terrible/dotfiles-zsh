@@ -21,7 +21,7 @@ if [ -n "${LS_COLORS}" ]; then
 fi
 
 # Some useful defaults for common commands
-lf() { command ls -lHAFpZ --group-directories-first --sort=extension --color=auto "$@" | tail -n +2; }
+lf() { command ls -lHAFpZ --group-directories-first --sort=extension --color=auto "$@" }
 
 # Some useful aliases to append at the command line
 [ -n "${DISPLAY}" ] && alias -g D="DISPLAY=${DISPLAY}"
