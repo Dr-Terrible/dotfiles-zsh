@@ -4,7 +4,7 @@
 # You should only add things such as environment variables and stuff you want
 # to make available to any type of shell, whether it's interactive or not.
 
-# basedir defaults, in case they're not already set up.
+# basedir defaults, in case they are not already set up.
 # http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 if [[ -z "$XDG_DATA_HOME" ]]; then
 	export XDG_DATA_HOME="$HOME/.local/share"
@@ -35,23 +35,34 @@ fi
 
 ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 
-# This is the directory where all the custom ZSH functions are stored.
-# By default, it is an empty string.
-# If you want to use a different path, then override the default value with
-# and absolute path name pointing to a zsh.d/ directory.
-ZSHD_DIR=""
+# This is the directory where all the custom ZSH functions that tinker with the
+# environment are stored. By default, it is an empty string.
+#
+# NOTE: if you want to use a different path, then override the default value
+# with an absolute path name pointing to a zsh.env.d/ directory.
+ZSH_ENV_DIR=""
 
-# Determine the location of the zsh.d/ directory
-if [[ -z ${ZSHD_DIR} ]]; then
-	local zshenv="$HOME/.zshenv"
-	if [[ ! -L ${zshenv} ]]; then
-		printf "${zshenv} is not a symbolic link!\n"
-		printf "this file has not been installed by 'bestow'.\n"
-		printf "sorry, I cannot continue. Please, ask upstream for feedbacks:\n"
-		printf "-  https://github.com/Dr-Terrible/dotfiles-zsh\n"
-		exit 1
-	fi
+# Determine the location of the zsh.d/ directory in a portable way.
+if [[ -z ${ZSH_ENV_DIR} ]]; then
+	# Determine the current working directory.
+	local cwd="$( pwd -P )"
+	[[ -z ${cwd} ]] && continue
 
-	ZSHD_DIR="$( readlink ${zshenv} )"
-	ZSHD_DIR="$( dirname ${ZSHD_DIR} )/zsh.d"
+	# Resolve symlinks, if present.
+	local zshenv="${cwd}/.zshenv"
+	zshenv="$( readlink -f ${zshenv} )"
+
+	# Check if zsh.env.d/ directory exists.
+	local zshd="$( dirname ${zshenv} )/zsh.env.d"
+	[[ ! -d "${zshd}" ]] && continue
+
+	# We got our directory. Let's roll!
+	ZSH_ENV_DIR="${zshd}"
 fi
+
+# This is the directory where all the custom ZSH plug-ins are stored.
+# By default, it is an empty string.
+#
+# NOTE: if you want to use a different path, then override the default value
+# with an absolute path name pointing to a zsh.plugins.d/ directory.
+ZSH_PLUGINS_DIR=""

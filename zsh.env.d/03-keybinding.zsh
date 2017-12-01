@@ -4,7 +4,7 @@ setopt NO_FLOW_CONTROL
 # Load keyboard mapping.
 # TODO: add instructions about how to generate ~/.zkbd/xterm-256color-:0
 # TODO: make the key mapping dependent on the hostname/os rather than $TERM
-KEYMAPPING_DIR="${ZSHD_DIR}/zkbd/"
+KEYMAPPING_DIR="${ZSH_ENV_DIR}/zkbd/"
 KEYMAP_FILE="${TERM}-${${DISPLAY:t}:-${VENDOR}-${OSTYPE}}"
 if [ -r "${KEYMAPPING_DIR}"/${KEYMAP_FILE} ]; then
 	. "${KEYMAPPING_DIR}"/${KEYMAP_FILE}

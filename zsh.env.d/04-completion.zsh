@@ -1,6 +1,10 @@
 # Enable tab-completion module
+
+local cache_file="${XDG_CACHE_HOME}/.zcomp-$HOST"
+
 autoload -Uz compinit
-compinit #-i -u -d "${XDG_CACHE_HOME}"/zsh/.zcompdump
+compinit -d "${cache_file}"
+zrecompile -p -M "${cache_file}"
 
 # Enable the auto-correction of the commands typed,
 # and make zsh ask you for confirmation every time it suggests a correction
@@ -8,8 +12,8 @@ setopt CORRECT
 #setopt correctall
 
 # Use a cache
-zstyle ':completion:*' use-cache on
-#zstyle ':completion:*' cache-path "${XDG_CACHE_HOME}"/zsh/completion
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion::complete:*' cache-path $cache
 
 # ZStyles
 zstyle ":completion:*" auto-description "specify: %U%d%u"

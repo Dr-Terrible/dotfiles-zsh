@@ -13,11 +13,13 @@ umask 0077
 
 # Put your fun stuff here.
 # ------------------------
+autoload -Uz zrecompile
 
-# Dynamic load all the module set-ups, and helper functions.
-if [ -d "${ZSHD_DIR}" ]; then
-	for script in "${ZSHD_DIR}"/*.zsh ; do
-		[ -r "${script}" ] && . "${script}"
+# Dynamic load and compile all the module set-ups, and helper functions.
+if [ -d "${ZSH_ENV_DIR}" ]; then
+	for script in "${ZSH_ENV_DIR}"/*.zsh ; do
+		[[ -r "${script}" ]] && . "${script}"
+		zrecompile -p "${script}"
 	done
 	unset script
 fi
@@ -27,14 +29,13 @@ if command -v direnv >/dev/null 2>&1; then
 	eval "$( direnv hook zsh )"
 fi
 
-# Compile everything
-autoload -Uz zrecompile
-zrecompile -p \
-	-R "${ZDOTDIR}"/.zlogin -- \
-	-R "${ZDOTDIR}"/.zlogout -- \
-	-R "${ZDOTDIR}"/.zprofile -- \
-	-R "${ZDOTDIR}"/.zshrc -- \
-	-M "${ZDOTDIR}"/.zcompdump
+# Compile everything in the configuration directory.
+for script in "${ZDOTDIR}"/.z* ; do
+	[[ "${script}" =~ \.(old|zwc)$ ]] && continue
+	[[ -r "${script}" ]] && zrecompile -p "${script}"
+done
+unset script
+
 
 autoload -Uz zmv
 autoload -Uz zcalc
