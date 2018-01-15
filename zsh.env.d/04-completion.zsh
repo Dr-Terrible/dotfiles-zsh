@@ -1,6 +1,6 @@
 # Enable tab-completion module
 
-local cache_file="${XDG_CACHE_HOME}/.zcomp-$HOST"
+local cache_file="${XDG_CACHE_HOME}/zsh/.zcomp-$HOST"
 
 autoload -Uz compinit
 compinit -d "${cache_file}"
@@ -13,7 +13,7 @@ setopt CORRECT
 
 # Use a cache
 zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path $cache
+zstyle ':completion::complete:*' cache-path "${cache_file}"
 
 # ZStyles
 zstyle ":completion:*" auto-description "specify: %U%d%u"
