@@ -4,9 +4,21 @@
 # There is no need to set anything past this point for scp and rcp.
 # It's important to refrain from outputting anything in those cases.
 if [[ $- != *i* ]] ; then
-        # Shell is non-interactive. Be done now!
-        return
+	# Shell is non-interactive. Be done now!
+	return
 fi
+
+case ${OSTYPE} in
+	solaris*) ;;
+	linux*) ;;
+	darwin*) ;;
+	bsd*) ;;
+	*)
+		printf "OS '${OSTYPE}' not supported! Aborting.\n"
+		exit 1
+		;;
+esac
+
 
 # TODO: investigate why umask from ~/.zprofile is ignored by newer ZSH versions.
 umask 0077
@@ -18,7 +30,9 @@ autoload -Uz zrecompile
 # Dynamic load and compile all the module set-ups, and helper functions.
 if [ -d "${ZSH_ENV_DIR}" ]; then
 	for script in "${ZSH_ENV_DIR}"/*.zsh ; do
-		[[ -r "${script}" ]] && . "${script}"
+		[[ ! -f "${script}" ]] && continue
+		[[ ! -r "${script}" ]] && continue
+		. "${script}"
 		zrecompile -p "${script}"
 	done
 	unset script
