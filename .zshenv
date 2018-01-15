@@ -42,7 +42,7 @@ ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 # with an absolute path name pointing to a zsh.env.d/ directory.
 ZSH_ENV_DIR=""
 
-# Determine the location of the zsh.d/ directory in a portable way.
+# Determine the location of the zsh.env.d/ directory in a portable way.
 if [[ -z ${ZSH_ENV_DIR} ]]; then
 	# Determine the current working directory.
 	local cwd="$( pwd -P )"
@@ -54,10 +54,10 @@ if [[ -z ${ZSH_ENV_DIR} ]]; then
 
 	# Check if zsh.env.d/ directory exists.
 	local zshd="$( dirname ${zshenv} )/zsh.env.d"
-	[[ ! -d "${zshd}" ]] && continue
-
-	# We got our directory. Let's roll!
-	ZSH_ENV_DIR="${zshd}"
+	if [[ -d "${zshd}" ]]; then
+		# We got our directory. Let's roll!
+		ZSH_ENV_DIR="${zshd}"
+	fi
 fi
 
 # This is the directory where all the custom ZSH plug-ins are stored.
