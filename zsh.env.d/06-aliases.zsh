@@ -3,6 +3,18 @@ rm() { command rm -i "$@"; }
 cp() { command cp -i "$@"; }
 mv() { command mv -i "$@"; }
 
+# Useful redirects for neovim
+edit() { command nvim "$@"; }
+vim() {  command nvim "$@"; }
+
+if [[ "${OSTYPE}" =~ ^linux ]]; then
+	open() { command xdg-open "$@"; }
+fi
+
+if command -pv gopass >/dev/null 2>&1; then
+	pass() { command gopass "$@"; }
+fi
+
 # Coloured output
 if [ -n "${LS_COLORS}" ]; then
 	dir() { command dir --color=auto "$@"; }
